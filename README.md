@@ -1,6 +1,6 @@
-_Branch_: main
-_Commit_: Basic App Setup
-_OS_    : Windows
+_Branch_: main <br>
+_Commit_: Basic App Setup <br>
+_OS_    : Windows <br>
 
 This app is for setting up a custom API/Website on top of Hashicorp vault to allow generating/storing AWS resources's secrets. This can be extended to a muticloud setup as well.
 
