@@ -1,2 +1,6 @@
 flaskvault.code-workspace
 flaskvault_env/
+*.cpython-311.pyc
+services/db/postgres_data/
+services/broker/data/
+*.log

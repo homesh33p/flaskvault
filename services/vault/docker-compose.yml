@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+
+  vault:
+    container_name: flaskvault
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8200:8200
+    volumes:
+      - ./config:/vault/config
+      - ./policies:/vault/policies
+      - ./data:/vault/data
+      - ./logs/startup:/var/log
+      - ./logs/vault:/vault/logs
+    env_file:
+      - ./vault.env
+    cap_add:
+      - IPC_LOCK
+    networks:
+      - flaskvaultnetwork      
+networks:
+  flaskvaultnetwork:
+    name: flaskvaultnetwork

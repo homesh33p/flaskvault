@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: services/app/Dockerfile
+    volumes:
+      - ./secretstore:/secretstore
+      - ./services/app/logs:${LOG_PATH}
+    ports:
+      - 5000:5000
+    env_file:
+      - ./.env
+      - ./services/app/app.env
+      - ./services/worker/worker.env
+    depends_on:
+      - pgdb
+      - broker
+    networks:
+      - flaskvaultnetwork
+      - default
+  pgdb:
+    build: ./services/db
+    volumes:
+      - ./services/db/postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+      - ./services/db/db.env
+  broker:
+    build: ./services/broker
+    volumes:
+      - ./services/broker/data:/data
+      - ./services/broker/conf:/usr/local/etc/redis/
+  worker:
+    build: 
+      context: .
+      dockerfile: ./services/worker/Dockerfile
+    env_file:
+      - ./.env
+      - ./services/app/app.env
+      - ./services/worker/worker.env   
+    volumes:
+      - ./secretstore:/secretstore
+      - ./services/worker/logs:${LOG_PATH}
+    depends_on:
+      - broker
+      - app
+    networks:
+      - default
+      - flaskvaultnetwork
+volumes:
+  secretstore:
+  broker:
+  conf:
+  postgres_data:
+networks:
+  default:
+  flaskvaultnetwork:
+    external: true

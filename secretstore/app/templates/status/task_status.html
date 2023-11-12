@@ -1,0 +1,43 @@
+<!--templates/status/task_status.html-->
+
+{% extends "base.html" %}
+
+{% block title %}Celery Task Status{% endblock %}
+
+{% block page_content %}
+    <h1>Celery Task Status</h1>
+    
+    <p>Task ID: {{ task_id }}</p>
+    
+    <form id="check-status-form">
+        <input type="hidden" name="task_id" value="{{ task_id }}">
+        <button type="submit">Check Task Status</button>
+    </form>
+    
+    <p id="statusResult"></p>
+
+    <script>
+        document.getElementById('check-status-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var task_id = document.querySelector('input[name="task_id"]').value;
+
+            // Fetch the task status from the Flask route
+            fetch('{{ url_for("status.task_status",task_id=task_id) }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const taskStatus = data.task_status;
+
+            // Display the status in the HTML
+            document.getElementById('statusResult').textContent = `Task Status: ${taskStatus}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+{% endblock %}

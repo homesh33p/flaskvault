@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}LongRunningTaskApp{% endblock %}
+
+{% block page_content %}
+    <div class="page-header">
+        <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Anon{% endif %}!</h1>
+        {% if not current_user.is_authenticated %}
+        <p>Pleased to meet you!</p>
+        <p>
+            <!-- Big Login Button -->
+            <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-lg">Login</a>
+        </p>
+        {% else %}
+        <p>Happy to see you again!</p>
+        <p>
+            <!-- Big Login Button -->
+            <a href="{{ url_for('main.index') }}" class="btn btn-primary btn-lg">Placeholder</a>
+        </p>        
+        {% endif %}
+    </div>
+{% endblock %}
