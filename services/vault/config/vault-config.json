@@ -4,6 +4,11 @@
       "path": "/vault/file"
     }
   },
+  "log": {
+    "file": {
+      "path": "/var/log/vault.log"
+    }
+  },  
   "listener": [
     {
       "tcp":

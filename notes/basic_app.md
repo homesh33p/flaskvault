@@ -26,7 +26,7 @@ docker compose up -d
 Vault will be initialised in the first bootup.
 
 Now go to /vault/logs/startup/init_out.log
-Copy the value of the unseal keys and root token to vault.env
+Copy the value of the unseal keys and root token to vault.env in config folder.
 
 ```sh
 docker compose stop

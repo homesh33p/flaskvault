@@ -10,13 +10,12 @@ services:
     ports:
       - 8200:8200
     volumes:
-      - ./config:/vault/config
       - ./policies:/vault/policies
-      - ./data:/vault/data
-      - ./logs/startup:/var/log
-      - ./logs/vault:/vault/logs
+      - ./file:/vault/file
+      - ./logs:/var/log
+      - ./config:/vault/config
     env_file:
-      - ./vault.env
+      - ./.env
     cap_add:
       - IPC_LOCK
     networks:

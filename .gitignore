@@ -5,3 +5,4 @@ services/db/postgres_data/
 services/broker/data/
 *.log
 services/vault/vault.env
+services/vault/file/

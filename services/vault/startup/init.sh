@@ -39,9 +39,27 @@ vault_sealed=$(vault status -format=json 2>/dev/null | jq -r '.sealed')
 
 if [ "$vault_initialized" != "true" ]; then
     ./startup/vault_init.sh
+
+    vault_initialized=$(vault status -format=json 2>/dev/null | jq -r '.initialized')
+    
+    if [ "$vault_initialized" == "true" ]; then
+        echo "Vault initialized"
+    else
+        echo "Vault initialisation failed"
+        exit 1
+    fi
 else
     if [ "$vault_sealed" == "true" ]; then
         ./startup/unseal.sh
+        
+        vault_sealed=$(vault status -format=json 2>/dev/null | jq -r '.sealed')    
+        
+        if [ "$vault_sealed" == "false" ]; then
+            echo "Vault unsealed"
+        else
+            echo "Vault unsealing failed"
+            exit 1
+        fi   
     else
         echo "Vault is already unsealed"
     fi
